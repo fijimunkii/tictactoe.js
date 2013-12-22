@@ -1,0 +1,12 @@
+#game-container {
+  height: 300px;
+  width: 300px;
+}
+
+.tile {
+  float: left;
+  height: 100px;
+  width: 100px;
+  border: 1px solid #000;
+  background: #c0ffee;
+}
