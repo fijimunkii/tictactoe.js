@@ -32,6 +32,10 @@
       var $tile = $(this);
       if (!$tile.attr('choice')) Game.toggle($tile);
     });
+
+    $('#new-game').on('mousedown touchstart', function() {
+      Game.createBoard();
+    });
   }
 
   Game.removeListeners = function() {

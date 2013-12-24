@@ -1,3 +1,12 @@
+header {
+  font-size: 25px;
+  margin: 10px 0 25px 90px;
+}
+
+#new-game {
+  cursor: pointer;
+}
+
 #game-container {
   height: 300px;
   width: 300px;
@@ -8,9 +17,10 @@
   height: 100px;
   width: 100px;
   border: 1px solid #000;
-  background: #c0ffee;
+  background: green;
   font-size: 100px;
   text-align: center;
+  cursor: pointer;
 }
 
 .win {
