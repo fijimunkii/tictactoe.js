@@ -3,7 +3,7 @@
   var Game = Game || {};
 
   Game.options = {
-
+    startPiece: 'O'
   };
 
   Game.rand = function(max) {
@@ -23,15 +23,40 @@
         $('#game-container').append($tile);
       }
     }
-
+    Game.options.turn = 1;
     Game.listeners();
   }
 
   Game.listeners = function() {
     $('body').on('mouseup touchend', '.tile', function() {
       var $tile = $(this);
-      $tile.text('you clicked me');
+      if ($tile.text() === '') {
+        Game.toggle($tile);
+      }
     });
+  }
+
+  Game.toggle = function($tile) {
+    if (Game.options.startPiece === 'O') {
+      if (Game.options.turn % 2 == 0) {
+        $tile.text('X');
+      } else {
+        $tile.text('O');
+      }
+    } else {
+      if (Game.options.turn % 2 == 0) {
+        $tile.text('O');
+      } else {
+        $tile.text('X');
+      }
+    }
+
+    Game.options.turn ++;
+    Game.checkForWin();
+  }
+
+  Game.checkForWin = function() {
+
   }
 
 
