@@ -30,24 +30,30 @@
   Game.listeners = function() {
     $('body').on('mouseup touchend', '.tile', function() {
       var $tile = $(this);
-      if ($tile.text() === '') {
-        Game.toggle($tile);
-      }
+      if (!$tile.attr('choice')) Game.toggle($tile);
     });
+  }
+
+  Game.removeListeners = function() {
+    $('body').off('mouseup touchend', '.tile');
   }
 
   Game.toggle = function($tile) {
     if (Game.options.startPiece === 'O') {
       if (Game.options.turn % 2 == 0) {
         $tile.text('X');
+        $tile.attr('choice', 'X');
       } else {
         $tile.text('O');
+        $tile.attr('choice', 'O');
       }
     } else {
       if (Game.options.turn % 2 == 0) {
         $tile.text('O');
+        $tile.attr('choice', 'O');
       } else {
         $tile.text('X');
+        $tile.attr('choice', 'X');
       }
     }
 
@@ -69,7 +75,7 @@
     var checkList = [
           [$topLeft, $topMiddle, $topRight],
           [$middleLeft, $middleMiddle, $middleRight],
-          [$bottomLeft, $bottomLeft, $bottomRight],
+          [$bottomLeft, $bottomMiddle, $bottomRight],
           [$topLeft, $middleLeft, $bottomLeft],
           [$topMiddle, $middleMiddle, $bottomMiddle],
           [$topRight, $middleRight, $bottomRight],
@@ -77,25 +83,29 @@
           [$topRight, $middleMiddle, $bottomLeft]
         ];
 
-    for (var i=1; i<9; i++) {
-      Game.checkForSame(checkList[i]);
+    for (var i=0; i<8; i++) {
+      if (checkList[i][0].attr('choice')) {
+        Game.checkForSame(checkList[i]);
+      }
     }
 
   }
 
   Game.checkForSame = function(tileArray) {
-    var control = tileArray[i].text(),
-        check1 = false,
-        check2 = false;
-    if (control) {
-      for (var i=1; i < 3; i++) {
-        if (tileArray[i].text() === control) {
-          check[i] === true;
-        }
+    var control = tileArray[0].attr('choice'),
+        check = [undefined, false, false];
+
+    for (var i=1; i < 3; i++) {
+      if (tileArray[i].attr('choice') === control) {
+        check[i] = true;
       }
     }
-    if (check1 && check2) {
-      alert(control + ' Wins!');
+
+    if (check[1] && check[2]) {
+      for (var i=0; i<3; i++) {
+        tileArray[i].addClass('win');
+        Game.removeListeners();
+      }
     }
   }
 
